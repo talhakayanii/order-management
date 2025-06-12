@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Action Logs</h1>
+
+<p>Complete history of all actions performed in the system ({{ logs|length }} total entries)</p>
+
+{% if logs %}
+    <!-- I'm displaying all logs in reverse chronological order -->
+    <table>
+        <thead>
+            <tr>
+                <th>Action Type</th>
+                <th>Order ID</th>
+                <th>Performed By</th>
+                <th>Details</th>
+                <th>Timestamp</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for log in logs|reverse %}
+            <tr>
+                <td><strong>{{ log.action_type }}</strong></td>
+                <td>{{ log.order_id or 'N/A' }}</td>
+                <td>{{ log.performed_by }}</td>
+                <td>{{ log.details or 'No details provided' }}</td>
+                <td>{{ log.timestamp }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>No action logs available.</p>
+{% endif %}
+
+<div style="margin-top: 20px;">
+    <a href="/" class="btn">Back to Orders</a>
+</div>
+{% endblock %}

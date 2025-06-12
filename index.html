@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Order Management System</h1>
+
+<h2>Current Orders ({{ orders|length }} total)</h2>
+
+{% if orders %}
+    <!-- I'm displaying all orders in a comprehensive table -->
+    <table>
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Items</th>
+                <th>Delivery Date</th>
+                <th>Sender</th>
+                <th>Recipient</th>
+                <th>Address</th>
+                <th>Status</th>
+                <th>Created</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order_id, order in orders.items() %}
+            <tr>
+                <td><strong>{{ order.order_id }}</strong></td>
+                <td>{{ order.num_items }}</td>
+                <td>{{ order.delivery_date }}</td>
+                <td>{{ order.sender_name }}</td>
+                <td>{{ order.recipient_name }}</td>
+                <td>{{ order.recipient_address }}</td>
+                <td>
+                    <span class="status-{{ order.status.lower() }}">
+                        {{ order.status }}
+                    </span>
+                </td>
+                <td>{{ order.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                <td>
+                    <!-- I'm providing action buttons for each order -->
+                    <a href="/edit_order/{{ order.order_id }}" class="btn">Edit</a>
+                    {% if order.status != 'Delivered' %}
+                        <a href="/mark_delivered/{{ order.order_id }}" class="btn btn-success">Mark Delivered</a>
+                    {% endif %}
+                    <a href="/delete_order/{{ order.order_id }}" class="btn btn-danger" 
+                       onclick="return confirm('Are you sure you want to delete this order?')">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>No orders found. <a href="/add_order" class="btn btn-success">Add your first order</a></p>
+{% endif %}
+
+<h2>Recent Actions (Last 10)</h2>
+{% if logs %}
+    <!-- I'm showing recent actions for quick overview -->
+    <table>
+        <thead>
+            <tr>
+                <th>Action</th>
+                <th>Order ID</th>
+                <th>Performed By</th>
+                <th>Details</th>
+                <th>Timestamp</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for log in logs[-10:] %}
+            <tr>
+                <td><strong>{{ log.action_type }}</strong></td>
+                <td>{{ log.order_id or 'N/A' }}</td>
+                <td>{{ log.performed_by }}</td>
+                <td>{{ log.details or 'No details' }}</td>
+                <td>{{ log.timestamp }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <p><a href="/view_logs" class="btn">View All Logs</a></p>
+{% else %}
+    <p>No actions logged yet.</p>
+{% endif %}
+{% endblock %}

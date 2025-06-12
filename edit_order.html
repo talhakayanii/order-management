@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Edit Order: {{ order.order_id }}</h1>
+
+<!-- I'm pre-filling the form with existing order data -->
+<form method="POST">
+    <div class="form-group">
+        <label for="num_items">Number of Items:</label>
+        <input type="number" id="num_items" name="num_items" min="1" required 
+               value="{{ order.num_items }}">
+    </div>
+
+    <div class="form-group">
+        <label for="delivery_date">Delivery Date:</label>
+        <input type="date" id="delivery_date" name="delivery_date" required 
+               value="{{ order.delivery_date }}">
+    </div>
+
+    <div class="form-group">
+        <label for="sender_name">Sender Name:</label>
+        <input type="text" id="sender_name" name="sender_name" required 
+               value="{{ order.sender_name }}">
+    </div>
+
+    <div class="form-group">
+        <label for="recipient_name">Recipient Name:</label>
+        <input type="text" id="recipient_name" name="recipient_name" required 
+               value="{{ order.recipient_name }}">
+    </div>
+
+    <div class="form-group">
+        <label for="recipient_address">Recipient Address:</label>
+        <textarea id="recipient_address" name="recipient_address" rows="3" required>{{ order.recipient_address }}</textarea>
+    </div>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-success">Update Order</button>
+        <a href="/" class="btn">Cancel</a>
+    </div>
+</form>
+
+<div style="margin-top: 20px; padding: 15px; background-color: #f8f9fa; border-radius: 4px;">
+    <h3>Order Information</h3>
+    <p><strong>Status:</strong> <span class="status-{{ order.status.lower() }}">{{ order.status }}</span></p>
+    <p><strong>Created:</strong> {{ order.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+</div>
+{% endblock %}

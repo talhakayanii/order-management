@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Add New Order</h1>
+
+<!-- I'm creating a form to capture all required order information -->
+<form method="POST">
+    <div class="form-group">
+        <label for="num_items">Number of Items:</label>
+        <input type="number" id="num_items" name="num_items" min="1" required 
+               value="{{ request.form.num_items if request.form.num_items }}">
+    </div>
+
+    <div class="form-group">
+        <label for="delivery_date">Delivery Date:</label>
+        <input type="date" id="delivery_date" name="delivery_date" required 
+               value="{{ request.form.delivery_date if request.form.delivery_date }}">
+    </div>
+
+    <div class="form-group">
+        <label for="sender_name">Sender Name:</label>
+        <input type="text" id="sender_name" name="sender_name" required 
+               value="{{ request.form.sender_name if request.form.sender_name }}">
+    </div>
+
+    <div class="form-group">
+        <label for="recipient_name">Recipient Name:</label>
+        <input type="text" id="recipient_name" name="recipient_name" required 
+               value="{{ request.form.recipient_name if request.form.recipient_name }}">
+    </div>
+
+    <div class="form-group">
+        <label for="recipient_address">Recipient Address:</label>
+        <textarea id="recipient_address" name="recipient_address" rows="3" required>{{ request.form.recipient_address if request.form.recipient_address }}</textarea>
+    </div>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-success">Create Order</button>
+        <a href="/" class="btn">Cancel</a>
+    </div>
+</form>
+{% endblock %}
